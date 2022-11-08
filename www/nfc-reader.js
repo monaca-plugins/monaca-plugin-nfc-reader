@@ -18,7 +18,7 @@ NfcReader.prototype.convertToHistory = function(blockData) {
   history["year"] = (blockData[4] >> 1) + 2000;
   history["month"] = ((blockData[4] & 1) == 1 ? 8 : 0) + (blockData[5] >> 5);
   history["day"] = blockData[5] & 0x1f;
-  history["enter_station_code"] = [ blockData[6], blockData[7] ];
+  history["boarding_station_code"] = [ blockData[6], blockData[7] ];
   history["exit_station_code"] = [ blockData[8], blockData[9] ];
   history["balance"] = blockData[10] + (blockData[11] << 8);
 
