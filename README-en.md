@@ -262,7 +262,7 @@ Define multiple codes `0003`,`fe00`:
 
 ## Appendix
 
-Refer [About FeliCa(article in Japanese)](README.md#felica%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6) about detail information of FeliCa, `System Code` and `Service Code`.
+Refer [About FeliCa(article in Japanese)](README.md#felica%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6) about detail information of FeliCa, `System Code` and `Service Code`.
 
 ## License
 
