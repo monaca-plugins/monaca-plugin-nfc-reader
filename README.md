@@ -8,7 +8,7 @@ Monaca NFCリーダープラグイン
 
 - タグIDの読み取り
   NFCタグに割り振られた固有のIDを読み取ることができます。
-- ブロックデータ読み取り(FeliCaのみ)
+- ブロックデータ読み取り(FeliCa[^1]のみ)
   FeliCaのブロックデータを読み取ることができます。
 
 ## 対象プラットフォーム
@@ -28,8 +28,8 @@ androidは未対応
 
 ## 対応するNFCタグの種類
 
-- NFC typeA (MiFare)
-- NFC typeF (FeliCa)
+- NFC Type A (Mifare[^2])
+- NFC Type F (FeliCa)
 
 ## API の解説
 
@@ -38,6 +38,10 @@ androidは未対応
 ```
 monaca.NfcReader.readId(successCallback, failCallback, args)
 ```
+
+NFCタグのIDを読み込みます。
+Type A: UID / Type F: IDm
+NFC Type Bには対応していません。
 
 #### successCallback
 
@@ -55,8 +59,9 @@ result: 以下のデータが返されます。
 
 - idは16進数文字列です。
 - idの桁数はNFCタグの種類によって変わります。
-- FeliCaでは指定したシステムコード(後述)に対応するIDが返ります。
-  - 異なる複数のシステムコードのIDの読み取りに対応したい場合は、後述の[システムコードの指定](#システムコードの指定)を参照してください。
+- FeliCaではアプリケーションに指定されたシステムコード(後述)に対応するIDが返ります。
+  - プラグインのデフォルトではシステムコード=`0003`のカードに設定されています。
+  - システムコードを変更したい場合や、異なる複数のシステムコードのIDの読み取りに対応したい場合は、後述の[システムコードの指定](#システムコードの指定)を参照してください。
 
 #### failCallback
 
@@ -86,8 +91,8 @@ error: エラーメッセージ(文字列)
       // cancelled
     } else {
       // success
-      const detected_id = result.data.id;
-      const detected_type = result.data.type;
+      const detected_id = result.id;
+      const detected_type = result.type;
     }
   }, (error) => {
     // error
@@ -102,6 +107,8 @@ error: エラーメッセージ(文字列)
 ```
 monaca.NfcReader.readBlockData(successCallback, failCallback, args)
 ```
+
+FeliCaのブロックデータを読み込みます。
 
 #### successCallback
 
@@ -163,6 +170,8 @@ error: エラーメッセージ(文字列)
       // cancelled
     } else {
       // success
+      const detected_id = result.id;
+      const detected_type = result.type;
       const blockData = result.data;
 
       // convert block data to traffic IC history
@@ -197,6 +206,11 @@ error: エラーメッセージ(文字列)
 | "Unhandled NFC error" | その他のNFCエラー |
 
 ## iOS 特有の動作
+
+プラグインの使用にはアプリケーションの`config.xml`に以下の設定を追加する必要があります。
+
+- Swiftバージョンの指定(必須)
+- システムコードの指定(任意)
 
 ### Swiftバージョンの指定
 
@@ -240,7 +254,7 @@ error: エラーメッセージ(文字列)
 
 ### 記述例
 
-```
+```config.xml
     <platform name="ios">
         <preference name="SwiftVersion" value="5"/>
         <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
@@ -253,12 +267,12 @@ error: エラーメッセージ(文字列)
 
 ## 補足
 
-### FeliCaについて
+### FeliCaの読み込みについて
 
 #### システムコード
 
 FeliCaにおいて事業者や使用目的ごとに割り当てられたコードをシステムコードと呼びます。
-FeliCaカードを採用しているサービスごとに割り当てられたシステムコードは異なります。
+FeliCaカードを採用しているサービスごとに異なるシステムコードが割り当てられています。
 前述のようにアプリケーションに複数のシステムコードを設定しておくことで複数の種類のFeliCaカードに対応することができます。
 
 また、FeliCaカードでは１枚のカードの中に複数のシステム領域を持つことができます。
@@ -277,14 +291,14 @@ FeliCaのシステム領域の中にはサービスと呼ばれる領域が存�
 
 #### プラグインの対応状況
 
-- `readId()`は複数の種類のカードに対応しています。
+- `readId()`では複数の種類のカードに対応しています。
 - １枚のカードに複数のシステム領域が割り当てられている場合、`readId()`で取得できるIDは１つのみです。
-- `readBlockData()`は複数の種類のカード(複数のシステムコード)に対応していますが、現在指定できるサービスコードは１つのみとなります。
+- `readBlockData()`では複数の種類のカード(複数のシステムコード)に対応していますが、現在指定できるサービスコードは１つのみとなります。
   異なるサービスコードを持つカードを読み取った場合はエラーが返ります。
 
 ### 応用
 
-ブロックデータの活用方法の１つとして、交通系ICカードの利用履歴の読み取りがあります。
+ブロックデータの活用方法の１つとして、交通系ICカードの利用履歴の読み取りが挙げられます。
 このプラグインでは参考としてブロックデータから利用履歴への変換メソッドを提供しています。
 
 ```
@@ -327,9 +341,12 @@ traffic history object:
 
 **注意**
 
-交通系ICのデータ形式については公表されていません。
+交通系ICのデータ形式は公表されていません。
 `convertToHistory`の処理は独自の調査結果により実装されています。
 このメソッドに関してはあくまでも参考程度として、以下の方針のもと提供させて頂きます。
+- 全ての交通系ICカードに対応しているものではありません。
+- 一般的な交通系ICカードの列車の乗降履歴のみに対応しています。
+- それ以外の乗り物や買い物の履歴などはデータ形式が異なるケースがあり対応していません。
 - このメソッドに関しての一切の動作保証は致しかねます。
 - 今後のバージョンでの提供や互換性に関しても未定となります。
 
@@ -344,3 +361,6 @@ traffic history object:
 ## License
 
 see [LICENSE](./LICENSE)
+
+[^1]: FeliCa はソニー株式会社の登録商標です。
+[^2]: Mifare はNXPセミコンダクターズN.V.の登録商標です。
