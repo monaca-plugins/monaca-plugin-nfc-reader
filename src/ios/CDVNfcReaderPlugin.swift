@@ -25,6 +25,7 @@ let NFC_UNHANDLED_ERROR = "Unhandled NFC error"
 let DEFAULT_NFC_SCAN_MESSAGE = "Bring the NFC tag closer to your Smartphone"
 
 @available(iOS 13.0, *)
+/// NFC Reader Plugin class
 @objc(CDVFelicaReaderPlugin) class CDVNfcReaderPlugin: CDVPlugin,
 NFCNDEFReaderSessionDelegate,
 NFCTagReaderSessionDelegate
@@ -40,6 +41,8 @@ NFCTagReaderSessionDelegate
     var options: Dictionary<String, Any> = [:]
 
     @objc(readId:)
+    /// Read ID of NFC Tags
+    /// - Parameter command: inherited
     func readId(command: CDVInvokedUrlCommand) {
         self.callbackId = command.callbackId
         self.commandType = .readId
@@ -48,6 +51,8 @@ NFCTagReaderSessionDelegate
     }
 
     @objc(readBlockData:)
+    /// Read block data of FeliCa
+    /// - Parameter command: inherited
     func readBlockData(command: CDVInvokedUrlCommand) {
         self.callbackId = command.callbackId
         self.commandType = .readBlockData
@@ -69,18 +74,23 @@ NFCTagReaderSessionDelegate
         self.startNFC()
     }
     
+    /// Return values from plugin
+    /// - Parameter result: result values
     func sendPluginResultWithValue(result: Dictionary<String, Any>) {
         let pluginResult: CDVPluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: result)
         self.commandDelegate.send(pluginResult, callbackId: self.callbackId)
     }
     
+    /// Return error from plugin
+    /// - Parameter error: error message
     func sendPluginResultWithError(error: String) {
         let pluginResult: CDVPluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: error)
         self.commandDelegate.send(pluginResult, callbackId: self.callbackId)
         
         self.session = nil
     }
-
+    
+    /// Start NFC session
     func startNFC() {
         if NFCTagReaderSession.readingAvailable {
             session = NFCTagReaderSession(pollingOption: [.iso18092, .iso14443], delegate: self)
@@ -92,11 +102,19 @@ NFCTagReaderSessionDelegate
         }
     }
     
+// MARK: NFCTagReaderSessionDelegate
+    
     @available(iOS 13.0, *)
+    /// override
+    /// - Parameter session: inherited
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
     }
     
     @available(iOS 13.0, *)
+    /// override
+    /// - Parameters:
+    ///   - session: inherited
+    ///   - tags: inherited
     func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
         let tag = tags.first!
         session.connect(to: tag) { [self] (error) in
@@ -139,6 +157,10 @@ NFCTagReaderSessionDelegate
     }
     
     @available(iOS 13.0, *)
+    /// override
+    /// - Parameters:
+    ///   - session: inherited
+    ///   - error: inherited
     func tagReaderSession(_ session: NFCTagReaderSession, didInvalidateWithError error: Error) {
         if self.session == nil {
             // called after session invalidated, but it's not necessary to return error
@@ -159,26 +181,38 @@ NFCTagReaderSessionDelegate
         }
     }
     
+    /// Read ID of NFC Type A tag
+    /// - Parameters:
+    ///   - session: NFC session
+    ///   - miFareTag: Tag
     func readMiFareTagId(_ session: NFCTagReaderSession, miFareTag: NFCMiFareTag) {
         let id = miFareTag.identifier.map { String(format: "%.2hhx", $0) }.joined()
         print("UID: \(id)")
         
         session.invalidate()
         
-        let result: Dictionary<String, Any> = ["id": id, "type": "typeA"]
+        let result: Dictionary<String, Any> = ["id": id, "type": "typeA", "cancelled": false]
         self.sendPluginResultWithValue(result: result)
     }
     
+    /// Read ID of NFC Type F tag
+    /// - Parameters:
+    ///   - session: NFC session
+    ///   - feliCaTag: Tag
     func readFelicaTagId(_ session: NFCTagReaderSession, feliCaTag: NFCFeliCaTag) {
         let id = feliCaTag.currentIDm.map { String(format: "%.2hhx", $0) }.joined()
         print("IDm: \(id)")
         
         session.invalidate()
         
-        let result: Dictionary<String, Any> = ["id": id, "type": "typeF"]
+        let result: Dictionary<String, Any> = ["id": id, "type": "typeF", "cancelled": false]
         self.sendPluginResultWithValue(result: result)
     }
     
+    /// Read block data of NFC Type F tag
+    /// - Parameters:
+    ///   - session: NFC session
+    ///   - feliCaTag: Tag
     func readFelicaBlockData(_ session: NFCTagReaderSession, feliCaTag: NFCFeliCaTag) {
         
         let id = feliCaTag.currentIDm.map { String(format: "%.2hhx", $0) }.joined()
@@ -221,20 +255,32 @@ NFCTagReaderSessionDelegate
             self.session = nil
             
             let byteArray = dataList.map { $0.map { Int($0)} }
-            let result: Dictionary<String, Any> = ["id": id, "type": "typeF", "data": byteArray]
+            let result: Dictionary<String, Any> = ["id": id, "type": "typeF", "cancelled": false, "data": byteArray]
             self.sendPluginResultWithValue(result: result)
         }
 
     }
     
+    // MARK: NFCNDEFReaderSessionDelegate
+
+    /// override
+    /// - Parameter session: inherited
     func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
 
     }
     
+    /// override
+    /// - Parameters:
+    ///   - session: inherited
+    ///   - error: inherited
     func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
         print("error:\(error.localizedDescription)")
     }
-
+    
+    /// override
+    /// - Parameters:
+    ///   - session: inherited
+    ///   - messages: inherited
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
 
         for message in messages {
