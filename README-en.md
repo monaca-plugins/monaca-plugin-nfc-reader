@@ -59,7 +59,7 @@ result: following data
 - Length of id depends on NFC types.
 - In the case of FeliCa, returned id is associated with the `system code` configured for the application.
   - By default, the `system code` is defined to `0003`
-  - To change or define multiple system codes, refer [Definition of system codes](#Definition%20of%20system%20codes).
+  - To change or define multiple system codes, refer [Definition of system codes](#definition-of-system-codes).
 
 #### failCallback
 
@@ -67,7 +67,7 @@ failCallback(error)
 
 error: error message(string)
 
-Refer [Error Messages](#Error%20Messages)
+Refer [Error Messages](#error-messages)
 
 #### args
 
@@ -129,7 +129,7 @@ result: following data
 
 error: error message(string)
 
-Refer [Error Messages](#Error%20Messages)
+Refer [Error Messages](#error-messages)
 
 #### args
 
@@ -151,7 +151,7 @@ Refer [Error Messages](#Error%20Messages)
 
 - Returns the block data associated with specified service code.
   - Only 1 service code can be specified. Cannot specify multiple service codes.
-  - If changing system code, refer [Definition of system codes](#Definition%20of%20system%20codes).
+  - If changing system code, refer [Definition of system codes](#definition-of-system-codes).
 
 - The max size of block data is 20.
 - The data count can be read at once is 12.
