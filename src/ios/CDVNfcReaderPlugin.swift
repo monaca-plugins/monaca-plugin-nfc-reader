@@ -26,7 +26,7 @@ let DEFAULT_NFC_SCAN_MESSAGE = "Bring the NFC tag closer to your Smartphone"
 
 @available(iOS 13.0, *)
 /// NFC Reader Plugin class
-@objc(CDVFelicaReaderPlugin) class CDVNfcReaderPlugin: CDVPlugin,
+@objc(CDVNfcReaderPlugin) class CDVNfcReaderPlugin: CDVPlugin,
 NFCNDEFReaderSessionDelegate,
 NFCTagReaderSessionDelegate
 {
