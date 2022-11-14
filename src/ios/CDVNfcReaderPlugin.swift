@@ -57,17 +57,17 @@ NFCTagReaderSessionDelegate
         self.callbackId = command.callbackId
         self.commandType = .readBlockData
         self.options = (command.arguments[0] as? Dictionary<String, Any>)!
-        guard case let serviceCode = self.options["service_code"] as! [UInt8], serviceCode.count == 2 else {
+        guard let serviceCode = self.options["service_code"] as? [UInt8], serviceCode.count == 2 else {
             // error
             sendPluginResultWithError(error: INVALID_ARGUMENTS)
             return
         }
-        guard case let start = self.options["start"] as! Int, start >= 0 else {
+        guard let start = self.options["start"] as? Int, start >= 0 else {
             // error
             sendPluginResultWithError(error: INVALID_ARGUMENTS)
             return
         }
-        guard case let count = self.options["count"] as! Int, count > 0, count <= 12, start + count <= 20 else {
+        guard let count = self.options["count"] as? Int, count <= 12, start + count <= 20 else {
             sendPluginResultWithError(error: INVALID_ARGUMENTS)
             return
         }
