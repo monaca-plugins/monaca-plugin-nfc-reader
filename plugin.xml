@@ -21,11 +21,6 @@
           <param name="ios-package" value="CDVNfcReaderPlugin"/>
         </feature>
       </config-file>
-      <config-file parent="com.apple.developer.nfc.readersession.felica.systemcodes" target="*-Info.plist">
-          <array>
-              <string>0003</string>
-          </array>
-      </config-file>
       <config-file parent="NFCReaderUsageDescription" target="*-Info.plist">
           <string>NFCタグ読み込みに使用します。</string>
       </config-file>
@@ -43,4 +38,6 @@
         </config-file>
       <source-file src="src/ios/CDVNfcReaderPlugin.swift" target-dir="src/ios" />
     </platform>
+
+    <hook type="after_prepare" src="scripts/addSystemCodes.js" />
 </plugin>
