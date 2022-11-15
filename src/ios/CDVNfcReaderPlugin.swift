@@ -67,7 +67,7 @@ NFCTagReaderSessionDelegate
             sendPluginResultWithError(error: INVALID_ARGUMENTS)
             return
         }
-        guard let count = self.options["count"] as? Int, count <= 12, start + count <= 20 else {
+        guard let count = self.options["count"] as? Int, count > 0 else {
             sendPluginResultWithError(error: INVALID_ARGUMENTS)
             return
         }
