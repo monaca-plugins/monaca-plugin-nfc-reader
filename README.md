@@ -229,42 +229,26 @@ error: エラーメッセージ(文字列)
 ### システムコードの指定
 
 プラグインにデフォルトで指定されているFeliCaシステムコードは`0003`です。
-このコードを変更もしくは追加したい場合はアプリケーションの`config.xml`にコードを定義して設定を上書きしてください。
+このコードを変更もしくは追加したい場合は以下のいずれかの方法で設定してください。
 
-`0003`を`fe00`に変更する場合
-```
-<platform name="ios">
-  <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-    <array>
-      <string>fe00</string>
-    </array>
-  </edit-config>
-</platform>
-```
+#### Monaca クラウドIDEで設定
 
-複数のシステムコード`0003`、`fe00`を指定する場合
-```
-<platform name="ios">
-  <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-    <array>
-      <string>0003</string>
-      <string>fe00</string>
-    </array>
-  </edit-config>
-</platform>
-```
+1. MonacaクラウドIDEから `設定 → Cordova プラグインの管理`を選択します。
+2. NFCリーダープラグインの設定ボタンをクリックします。
+3. インストールパラメータ の欄に以下のように値を設定してください。
+  `0003`を`fe00`に変更する場合: `SYSTEM_CODES=fe00`
+  複数のシステムコード`0003`、`fe00`を指定する場合: `SYSTEM_CODES=0003,fe00`
 
-### 記述例
+#### variableオプションで設定
 
-```config.xml
-    <platform name="ios">
-        <preference name="SwiftVersion" value="5"/>
-        <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-            <array>
-                <string>0003</string>
-            </array>
-        </edit-config>
-    </platform>
+Cordova CLIからプラグインを使用する場合は、プラグイン追加時に`variable`オプションで値を指定してください。
+
+```
+# '0003'を'fe00'に変更する場合
+cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=fe00
+
+# 複数のシステムコード'0003'、'fe00'を指定する場合
+cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=0003,fe00
 ```
 
 ## 補足
@@ -365,4 +349,5 @@ traffic history object:
 see [LICENSE](./LICENSE)
 
 [^1]: FeliCa はソニー株式会社の登録商標です。
+FeliCa はソニー株式会社が開発した非接触ICカードの技術方式です。
 [^2]: Mifare はNXPセミコンダクターズN.V.の登録商標です。

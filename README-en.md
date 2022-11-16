@@ -222,42 +222,26 @@ Add following part to `config.xml`.
 ### Definition of system codes
 
 By default, the Felica system code `0003` is defined in this plugin.
-If change of add system code, add definition to `config.xml` to overwrite plugin's setting.
+If change or add system code, please set by one of the following way.
 
-Change `0003` to `fe00`:
-```
-<platform name="ios">
-  <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-    <array>
-      <string>fe00</string>
-    </array>
-  </edit-config>
-</platform>
-```
+#### Setting for Monaca Cloud IDE
 
-Define multiple codes `0003`,`fe00`:
-```
-<platform name="ios">
-  <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-    <array>
-      <string>0003</string>
-      <string>fe00</string>
-    </array>
-  </edit-config>
-</platform>
-```
+1. From Monaca Cloud IDE menu, go to `Configure -> Cordova Plugin Settings`.
+2. Under Available Plugins section, hover over the `@monaca/monaca-nfc-reader-plugin` plugin and click `Configure` button.
+3. Enter the following value in `Install Parameters`
+  Change the value from `0003` to `fe00`: `SYSTEM_CODES=fe00`
+  Define multiple codes like `0003`,`fe00`: `SYSTEM_CODES=0003,fe00`
 
-### Example
+#### Setting for Cordova CLI by variable option
 
-```config.xml
-    <platform name="ios">
-        <preference name="SwiftVersion" value="5"/>
-        <edit-config target="com.apple.developer.nfc.readersession.felica.systemcodes" file="*-Info.plist" mode="overwrite">
-            <array>
-                <string>0003</string>
-            </array>
-        </edit-config>
-    </platform>
+When using the plugin from the Cordova CLI, specify the value by `variable` option when adding the plugin.
+
+```
+# Change the value from `0003` to `fe00`
+cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=fe00
+
+# Define multiple codes like `0003`,`fe00`
+cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=0003,fe00
 ```
 
 ## Appendix
@@ -269,4 +253,5 @@ Refer [About FeliCa(article in Japanese)](README.md#felica%E3%81%AE%E8%AA%AD%E3%
 see [LICENSE](./LICENSE)
 
 [^1]: FeliCa is a registered trademark of SONY Corporation.
+FeliCa is a contactless IC card technology developed by Sony Corporation.
 [^2]: Mifare is a registered trademark of NXP Semiconductors N.V.
