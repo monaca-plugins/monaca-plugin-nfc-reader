@@ -39,7 +39,7 @@
   if (configFiles && configFiles.length > 0) {
     // check System Codes
     for(configFile of configFiles) {
-      if(configFile.target === "com.apple.developer.nfc.readersession.felica.systemcodes") {
+      if(configFile.parent === "com.apple.developer.nfc.readersession.felica.systemcodes") {
         console.log("SKIPPED: addSystemCodes: System Codes already defined.");
         return;
       }
