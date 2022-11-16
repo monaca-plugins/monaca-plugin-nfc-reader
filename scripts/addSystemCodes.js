@@ -47,10 +47,12 @@
   }
 
   // System Codes are not defined
-  // Add default system codes to plist
+  // Add system codes to plist
+  const systemCodes = cfg.getPreference("NFC_SYSTEM_CODES", "ios").split(',');
+
   const plistFile = path.join(api.locations.xcodeCordovaProj, `${originalName}-Info.plist`);
   const infoPlist = plist.parse(fs.readFileSync(plistFile, 'utf8'));
-  infoPlist["com.apple.developer.nfc.readersession.felica.systemcodes"] = ['0003'];
+  infoPlist["com.apple.developer.nfc.readersession.felica.systemcodes"] = systemCodes;
 
   /* eslint-disable no-tabs */
   // Write out the plist file with the same formatting as Xcode does
