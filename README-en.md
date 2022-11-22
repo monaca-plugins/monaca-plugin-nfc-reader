@@ -55,11 +55,11 @@ result: following data
 }
 ```
 
-- Id consists of　hexadecimal string.
+- Id consists of hexadecimal string.
 - Length of id depends on NFC types.
 - In the case of FeliCa, returned id is associated with the `system code` configured for the application.
   - By default, the `system code` is defined to `0003`
-  - To change or define multiple system codes, refer [Definition of system codes](#definition-of-system-codes).
+  - To change the system code, refer [Definition of system codes](#definition-of-system-codes).
 
 #### failCallback
 
@@ -221,7 +221,7 @@ Add following part to `config.xml`.
 
 ### Definition of system codes
 
-By default, the Felica system code `0003` is defined in this plugin.
+By default, the FeliCa system code `0003` is defined in this plugin.
 If change or add system code, please set by one of the following way.
 
 #### Setting for Monaca Cloud IDE
@@ -230,7 +230,6 @@ If change or add system code, please set by one of the following way.
 2. Under Available Plugins section, hover over the `@monaca/monaca-nfc-reader-plugin` plugin and click `Configure` button.
 3. Enter the following value in `Install Parameters`
   Change the value from `0003` to `fe00`: `SYSTEM_CODES=fe00`
-  Define multiple codes like `0003`,`fe00`: `SYSTEM_CODES=0003,fe00`
 
 #### Setting for Cordova CLI by variable option
 
@@ -239,9 +238,6 @@ When using the plugin from the Cordova CLI, specify the value by `variable` opti
 ```
 # Change the value from `0003` to `fe00`
 cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=fe00
-
-# Define multiple codes like `0003`,`fe00`
-cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=0003,fe00
 ```
 
 ## Appendix
