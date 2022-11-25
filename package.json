@@ -19,6 +19,6 @@
   "author": "Asial Corporation",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/monaca-plugins/monaca-plugin-barcode-scanner/issues"
+    "url": "https://github.com/monaca-plugins/monaca-plugin-nfc-reader/issues"
   }
 }
