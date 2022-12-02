@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  id="@monaca/monaca-plugin-nfc-reader" 
+  version="1.0.0">
+    <name>@monaca/monaca-plugin-nfc-reader</name>
+    <description>Monaca NFC Reader Plugin</description>
+    <author>Asial Corporation</author>
+    <license>Apache 2.0 License</license>
+    <engines>
+      <engine name="cordova" version=">=11.0.0" />
+    </engines>
+
+    <js-module src="www/nfc-reader.js" name="monaca.NfcReader">
+        <clobbers target="monaca.NfcReader" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+      <config-file target="config.xml" parent="/*">
+        <feature name="MonacaNfcReaderPlugin">
+          <param name="ios-package" value="CDVNfcReaderPlugin"/>
+        </feature>
+      </config-file>
+      <config-file parent="NFCReaderUsageDescription" target="*-Info.plist">
+          <string>NFCタグ読み込みに使用します。</string>
+      </config-file>
+        <config-file parent="com.apple.developer.nfc.readersession.formats" platform="ios" target="*-Debug.plist">
+            <array>
+                <string>NDEF</string>
+                <string>TAG</string>  
+            </array>
+        </config-file>
+        <config-file parent="com.apple.developer.nfc.readersession.formats" platform="ios" target="*-Release.plist">
+            <array>
+                <string>NDEF</string>
+                <string>TAG</string>  
+            </array>
+        </config-file>
+      <source-file src="src/ios/CDVNfcReaderPlugin.swift" target-dir="src/ios" />
+      <preference name="SYSTEM_CODES" default="0003"/>
+      <config-file target="config.xml" parent="/widget">
+        <preference name="NFC_SYSTEM_CODES" value="$SYSTEM_CODES" />
+      </config-file>
+    </platform>
+
+    <hook type="after_prepare" src="scripts/addSystemCodes.js" />
+</plugin>

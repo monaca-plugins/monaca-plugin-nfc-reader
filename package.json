@@ -1,0 +1,24 @@
+{
+  "name": "@monaca/monaca-plugin-nfc-reader",
+  "version": "1.0.0",
+  "description": "Monaca NFC Reader Plugin",
+  "cordova": {
+    "id": "@monaca/monaca-plugin-nfc-reader",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "keywords": [
+    "monaca",
+    "cordova",
+    "nfc",
+    "felica",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "Asial Corporation",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/monaca-plugins/monaca-plugin-nfc-reader/issues"
+  }
+}
