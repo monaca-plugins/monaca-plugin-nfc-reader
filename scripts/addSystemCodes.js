@@ -75,9 +75,10 @@ module.exports = function(context) {
 
   const ConfigParser = context.requireCordovaModule('cordova-common').ConfigParser;
   const root = context.opts.projectRoot;
+  const platformRootDir = path.resolve(root, 'platforms', 'ios');
   const pathAPI = path.resolve(root, 'platforms', 'ios', 'cordova', 'Api.js');
   const API = require(pathAPI);
-  const api = new API('ios');
+  const api = new API('ios', platformRootDir);
   const originalName = path.basename(api.locations.xcodeCordovaProj);
 
   // check System Code configuration

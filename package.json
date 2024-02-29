@@ -1,6 +1,6 @@
 {
   "name": "@monaca/monaca-plugin-nfc-reader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Monaca NFC Reader Plugin",
   "cordova": {
     "id": "@monaca/monaca-plugin-nfc-reader",
