@@ -339,6 +339,19 @@ traffic history object:
 - このドキュメント内に記載されたFeliCaおよびそれに関する技術用語はソニー株式会社様により公開されている技術資料を基に構成されています。
 - システムコード、サービスコード等の数値については対応するカード・サービスの事業者様より提供を受けた上でご利用ください。
 
+## iOS Privacy Manifest
+
+2024年5月1日より、アップル社はアプリとサードパーティSDKに対してプライバシーマニフェストファイルの作成を義務付けています。プライバシーマニフェストファイルの目的は、収集されるデータとそれが使用する必要なAPIの理由を説明することです。`cordova-ios@7.1.0`から、`config.xml`からプライバシーマニフェストファイルを設定するためのAPIが利用可能になりました。
+
+アプリ開発者としては、あなたのアプリがそのデータで何をするかを説明する追加情報を特定する責任があります。
+この場合、既知の `NSPrivacyCollectedDataTypes` と `NSPrivacyCollectedDataTypePurposes` のリストを理解するために、"[Describing data use in privacy manifests](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files/describing_data_use_in_privacy_manifests)" を確認する必要があります。
+
+`NSPrivacyTracking`、`NSPrivacyTrackingDomains`、`NSPrivacyAccessedAPITypes`、`NSPrivacyCollectedDataTypes`の4つのキーが定義されていることを確認してください。Appleはすべての定義を求めています。
+
+その他のリソース
+- [アプリのプライバシー詳細](https://developer.apple.com/app-store/app-privacy-details/)
+- [プライバシーマニフェストファイル](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files?language=objc)
+
 ## License
 
 see [LICENSE](./LICENSE)
@@ -346,3 +359,4 @@ see [LICENSE](./LICENSE)
 [^1]: FeliCa はソニー株式会社の登録商標です。
 FeliCa はソニー株式会社が開発した非接触ICカードの技術方式です。
 [^2]: Mifare はNXPセミコンダクターズN.V.の登録商標です。
+

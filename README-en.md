@@ -244,6 +244,19 @@ cordova plugin add @monaca/monaca-plugin-nfc-reader --variable SYSTEM_CODES=fe00
 
 Refer [About FeliCa(article in Japanese)](README.md#felica%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6) about detail information of FeliCa, `System Code` and `Service Code`.
 
+## iOS Privacy Manifest
+
+As of May 1, 2024, Apple requires a privacy manifest file to be created for apps and third-party SDKs. The purpose of the privacy manifest file is to explain the data being collected and the reasons for the required APIs it uses. Starting with `cordova-ios@7.1.0`, APIs are available for configuring the privacy manifest file from `config.xml`.
+
+As an app developer, it will be your responsibility to identify additional information explaining what your app does with that data.
+In this case, you will need to review the "[Describing data use in privacy manifests](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files/describing_data_use_in_privacy_manifests)" to understand the list of known `NSPrivacyCollectedDataTypes` and `NSPrivacyCollectedDataTypePurposes`.
+
+Also, ensure all four keys—`NSPrivacyTracking`, `NSPrivacyTrackingDomains`, `NSPrivacyAccessedAPITypes`, and `NSPrivacyCollectedDataTypes`—are defined, even if you are not making an addition to the other items. Apple requires all to be defined.
+
+Additional Resources:
+- [App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/)
+- [Privacy Manifest Files](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files?language=objc)
+
 ## License
 
 see [LICENSE](./LICENSE)
