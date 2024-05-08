@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   id="@monaca/monaca-plugin-nfc-reader" 
-  version="1.0.1">
+  version="1.0.2">
     <name>@monaca/monaca-plugin-nfc-reader</name>
     <description>Monaca NFC Reader Plugin</description>
     <author>Asial Corporation</author>
